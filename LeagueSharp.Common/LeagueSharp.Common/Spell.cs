@@ -189,7 +189,7 @@ namespace LeagueSharp.Common
         {
             if (!IsCharging && Environment.TickCount - _chargedReqSentT > 400 + Game.Ping)
             {
-                Cast();
+                ObjectManager.Player.Spellbook.CastSpell(SpellSlot.Q);
                 _chargedReqSentT = Environment.TickCount;
             }
         }
@@ -380,7 +380,7 @@ namespace LeagueSharp.Common
         /// </summary>
         public bool Cast()
         {
-            return IsReady() && ObjectManager.Player.Spellbook.CastSpell(Slot);
+            return IsReady() && ObjectManager.Player.Spellbook.CastSpell(Slot, ObjectManager.Player);
         }
 
         /// <summary>
@@ -459,7 +459,7 @@ namespace LeagueSharp.Common
         {
             var currentHitchance = MinHitChange;
             MinHitChange = hitChance;
-            var castResult = _cast(unit, packetCast, false, true);
+            var castResult = _cast(unit, packetCast, false, false);
             MinHitChange = currentHitchance;
             return castResult == CastStates.SuccessfullyCasted;
         }
